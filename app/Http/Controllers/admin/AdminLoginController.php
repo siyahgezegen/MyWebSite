@@ -12,13 +12,13 @@ class AdminLoginController extends Controller
     //admin login controller
     function index()
     {
-        if (!$this->sessionControl())
+        if ($this->sessionControl())
             return view('admin.adminpages.board');
         return view('admin.index');
     }
     function addContent()
     {
-        if ($this->sessionControl())
+        if (!$this->sessionControl())
             return view('admin.index');
         return view('admin.adminpages.addcontent');
     }
@@ -48,7 +48,7 @@ class AdminLoginController extends Controller
     */
     function addBookPost(Request $request)
     {
-        if ($this->sessionControl())
+        if (!$this->sessionControl())
             return view('admin.index');
 
         if ($request->bookname == null || $request->authorname == null) {
@@ -74,7 +74,7 @@ class AdminLoginController extends Controller
     }
     function addProject(Request $request)
     {
-        if ($this->sessionControl())
+        if (!$this->sessionControl())
             return view('admin.index');
         if ($request->projectsave == null)
             return view('admin.adminpages.addcontent');
@@ -113,12 +113,12 @@ class AdminLoginController extends Controller
     function board()
     {
         if (!$this->sessionControl())
-            return view('admin.adminpages.board');
-        return view('admin.index');
+            return view('admin.index');
+        return view('admin.adminpages.board');
     }
     function sessionControl(): bool
     {
-        if (session()->has('aname') && session()->has('apass'))
+        if (session()->has('auser') && session()->has('apass'))
             return true;
         else
             return false;

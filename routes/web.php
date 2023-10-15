@@ -21,7 +21,7 @@ Route::get('/admin', [AdminLoginController::class, 'index'])->name('admin-login'
 //!admin login control and make session
 Route::post('/admin-login', [AdminLoginController::class, 'adminLogin'])->name('admin-login-control');
 
-Route::get('/admin/add-content', [AdminLoginController::class, 'addContent'])->name('add.content');
+Route::get('/admin/add-content', [AdminLoginController::class, 'addContent'])->name('add-content');
 // Route::get('/admin/add-content', [AdminLoginController::class, 'addProject'])->name('addproject');
 //burada aynı adrese 2 tane root tanımladığım için hata alıyormuşum 
 
