@@ -8,14 +8,39 @@ use Illuminate\Support\Facades\DB;
 
 class AdminLoginController extends Controller
 {
+
     //admin login controller
     function index()
     {
+        if (!$this->sessionControl())
+            return view('admin.adminpages.board');
         return view('admin.index');
     }
-    function addBook()
+    function addContent()
     {
-        return view('admin.adminpages.addcontent', );
+        if ($this->sessionControl())
+            return view('admin.index');
+        return view('admin.adminpages.addcontent');
+    }
+
+    //ADMİN LOGİN
+    function adminLogin(Request $request)
+    {
+        $data = $request->input();
+        $table = DB::table('admins')->first();
+        $name = $table->admin_name;
+        $pass = $table->admin_pass;
+
+        if ($name === $data['auser'] && $pass === $data['apass']) {
+            //session işlemlerinin gerçekleşmesi
+            $request->session()->put('auser', $data['auser']);
+            $request->session()->put('apass', $data['apass']);
+            return view('admin.adminpages.addcontent');
+        } else {
+            return view('admin.index', ['value' => 'Kullanıcı adı veya şifre yanlış lütfen tekrar deneyiniz..']);
+        }
+        // return $data;
+
     }
 
     /* 
@@ -23,6 +48,9 @@ class AdminLoginController extends Controller
     */
     function addBookPost(Request $request)
     {
+        if ($this->sessionControl())
+            return view('admin.index');
+
         if ($request->bookname == null || $request->authorname == null) {
             return view('admin.adminpages.addcontent', ['message' => 'Kitap adı ya da Yazar adı boş geçilemez']);
         }
@@ -46,6 +74,8 @@ class AdminLoginController extends Controller
     }
     function addProject(Request $request)
     {
+        if ($this->sessionControl())
+            return view('admin.index');
         if ($request->projectsave == null)
             return view('admin.adminpages.addcontent');
 
@@ -82,6 +112,16 @@ class AdminLoginController extends Controller
     }
     function board()
     {
-        return view('admin.adminpages.board');
+        if (!$this->sessionControl())
+            return view('admin.adminpages.board');
+        return view('admin.index');
     }
+    function sessionControl(): bool
+    {
+        if (session()->has('aname') && session()->has('apass'))
+            return true;
+        else
+            return false;
+    }
+
 }

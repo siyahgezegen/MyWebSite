@@ -19,7 +19,7 @@ Route::get('/about-me', [AboutMeController::class, "index"])->name('about-me');
 //admin login
 Route::get('/admin', [AdminLoginController::class, 'index'])->name('admin-login');
 //!admin login control and make session
-Route::post('/admin', [AdminLoginController::class, 'adminLogin'])->name('admin-login-control');
+Route::post('/admin-login', [AdminLoginController::class, 'adminLogin'])->name('admin-login-control');
 
 Route::get('/admin/add-content', [AdminLoginController::class, 'addContent'])->name('add.content');
 // Route::get('/admin/add-content', [AdminLoginController::class, 'addProject'])->name('addproject');
